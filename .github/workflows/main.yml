@@ -7,7 +7,7 @@ on:
     - main
 
 env:
-  AZURE_WEBAPP_NAME: current-time-service
+  AZURE_WEBAPP_NAME: jmvss-current-time-service
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
