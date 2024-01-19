@@ -23,13 +23,13 @@ jobs:
           dotnet-version: '6.0.x'
           
       - name: Restore
-        run: dotnet restore ./CurrentTimeService.sln
+        run: dotnet restore ./ReservaMesa.sln
         
       - name: Build
-        run: dotnet build ./CurrentTimeService.sln --configuration Release --no-restore
+        run: dotnet build ./ReservaMesa.sln --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish ./CurrentTimeService.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./ReservaMesa.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
         
       - name: Deployment
         uses: azure/webapps-deploy@v2
