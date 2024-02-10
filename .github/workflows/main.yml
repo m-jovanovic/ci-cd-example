@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - main
-
+    - nazar-maslianka-patch-1
+  pull_request:
+    branches:
+    - nazar-maslianka-patch-1
 env:
   AZURE_WEBAPP_NAME: current-time-service
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
