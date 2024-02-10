@@ -5,6 +5,9 @@ on:
   push:
     branches:
     - main
+  pull_request:
+    branches:
+    - main
 
 env:
   AZURE_WEBAPP_NAME: current-time-service
@@ -27,13 +30,3 @@ jobs:
         
       - name: Build
         run: dotnet build ./CurrentTimeService.sln --configuration Release --no-restore
-        
-      - name: Publish
-        run: dotnet publish ./CurrentTimeService.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        
-      - name: Deployment
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
