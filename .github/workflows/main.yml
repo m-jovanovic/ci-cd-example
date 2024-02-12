@@ -7,33 +7,32 @@ on:
     - main
 
 env:
-  AZURE_WEBAPP_NAME: current-time-service
+  AZURE_WEBAPP_NAME: pi-memnmlpos-soyhenrry
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
-  publish:
+  build_and_deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-          
-      - name: Restore
-        run: dotnet restore ./CurrentTimeService.sln
-        
-      - name: Build
-        run: dotnet build ./CurrentTimeService.sln --configuration Release --no-restore
-        
-      - name: Publish
-        run: dotnet publish ./CurrentTimeService.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-        
-      - name: Deployment
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"  # Ejemplo, cambia la versión según tu necesidad
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build Python app
+      run: python main.py build  # Ejemplo, ajusta el comando según tu proyecto
+
+    - name: Create application package
+      run: python main.py bdist_wheel  # Ejemplo, ajusta el comando según tu proyecto
+
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
